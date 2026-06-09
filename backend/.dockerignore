@@ -1,0 +1,8 @@
+__pycache__/
+.pytest_cache/
+*.pyc
+.env
+# SQLite databases are auto-generated at runtime by init_db.py — exclude them
+data/*.db
+# ChromaDB is built at runtime from the PDF — exclude it
+chroma_db/

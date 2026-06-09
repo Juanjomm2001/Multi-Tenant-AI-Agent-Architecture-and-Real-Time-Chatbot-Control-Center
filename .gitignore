@@ -1,0 +1,34 @@
+# Environment variables / credentials
+.env
+.env.*
+.env.local
+.env.development
+.env.production
+!.env.example
+
+# Next.js build output and dependencies
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+
+# Python cache and dependencies
+backend/__pycache__/
+backend/.pytest_cache/
+backend/*.pyc
+backend/venv/
+backend/.venv/
+backend/chroma_db/
+backend/data/*.db
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
