@@ -189,14 +189,14 @@ export default function ChatDemoPage() {
     // ════════════════════════════════════════════════════════════════════════
     if (!isRegistered) {
         return (
-            <div style={{ minHeight: "100dvh" }} className={`flex flex-col items-center justify-center ${theme.pageBg} ${theme.text} p-4 relative overflow-hidden transition-colors duration-300`}>
+            <div className={`flex flex-col items-center justify-center min-h-[100dvh] ${theme.pageBg} ${theme.text} p-4 pt-16 relative overflow-hidden transition-colors duration-300`}>
                 <div className="absolute top-[-15%] left-[-10%] w-[50%] h-[50%] rounded-full bg-purple-600/10 blur-[120px] pointer-events-none" />
                 <div className="absolute bottom-[-15%] right-[-10%] w-[50%] h-[50%] rounded-full bg-emerald-500/10 blur-[120px] pointer-events-none" />
 
                 {/* Botón de tema en esquina */}
                 <button
                     onClick={() => setTheme(isDark ? "light" : "dark")}
-                    className={`absolute top-4 right-4 p-2 rounded-full ${theme.cardBg} border ${theme.border} ${theme.textMuted} hover:${theme.text} transition-all`}
+                    className={`fixed top-4 right-4 z-50 p-2.5 rounded-full ${theme.cardBg} border ${theme.border} ${theme.textMuted} hover:${theme.text} transition-all shadow-md`}
                 >
                     {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
                 </button>
@@ -260,7 +260,7 @@ export default function ChatDemoPage() {
     // CHAT
     // ════════════════════════════════════════════════════════════════════════
     return (
-        <div style={{ height: "100dvh" }} className={`flex ${theme.chatBg} ${theme.text} overflow-hidden relative transition-colors duration-300 overscroll-none`}>
+        <div className={`fixed inset-0 flex ${theme.chatBg} ${theme.text} overflow-hidden transition-colors duration-300 overscroll-none`}>
 
             {/* Toast */}
             {toast && (

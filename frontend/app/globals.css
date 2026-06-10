@@ -52,6 +52,7 @@
       radial-gradient(at 0% 0%, rgba(124, 58, 237, 0.08) 0px, transparent 50%),
       radial-gradient(at 100% 100%, rgba(37, 99, 235, 0.08) 0px, transparent 50%);
     min-height: 100vh;
+    overscroll-behavior-y: none;
   }
 }
 
