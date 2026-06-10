@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from typing import List, Dict, Any, Optional
 import os
 from rag_agent import MultiTenantRAGAgent
-
+from demo.demo_agent import DemoRAGAgent
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="SaaS Multi-Tenant RAG API")
@@ -16,7 +16,9 @@ app.add_middleware(
     allow_methods=["*"],  # Allows all methods including OPTIONS
     allow_headers=["*"],
 )
+
 rag_agent = MultiTenantRAGAgent()
+demo_agent = DemoRAGAgent()
 
 class ChatRequest(BaseModel):
     tenant_id: str
@@ -24,6 +26,17 @@ class ChatRequest(BaseModel):
     customer_id: Optional[str] = None
     query: str
     history: List[Dict[str, Any]] = []
+
+@app.post("/api/v1/demo/chat")
+def demo_chat_endpoint(request: ChatRequest):
+    result = demo_agent.ask(
+        tenant_id=request.tenant_id,
+        session_id=request.session_id,
+        customer_id=request.customer_id,
+        query=request.query,
+        history=request.history
+    )
+    return result
 
 @app.post("/api/v1/chat")
 def chat_endpoint(request: ChatRequest):
@@ -56,5 +69,3 @@ def ingest_endpoint(request: IngestRequest, background_tasks: BackgroundTasks):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# Note: We removed the /admin/ endpoints because the Next.js Dashboard 
-# will fetch data (chats, documents, tenants) directly from Supabase using the JS client.

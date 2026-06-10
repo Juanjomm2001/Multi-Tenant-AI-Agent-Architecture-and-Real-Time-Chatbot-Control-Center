@@ -9,9 +9,9 @@ from supabase_client import get_supabase_client, get_vector_store
 
 class MultiTenantRAGAgent:
     def __init__(self):
-        self.api_key = os.getenv("CAMPUSAI_API_KEY")
-        self.api_url = os.getenv("CAMPUSAI_API_URL")
-        self.model_name = os.getenv("CAMPUSAI_MODEL")
+        self.api_key = os.getenv("CAMPUSAI_API_KEY") or "placeholder_key"
+        self.api_url = os.getenv("CAMPUSAI_API_URL") or "https://api.placeholder.com/v1"
+        self.model_name = os.getenv("CAMPUSAI_MODEL") or "placeholder_model"
         
         self.llm = ChatOpenAI(
             api_key=self.api_key,

@@ -34,9 +34,9 @@ def get_vector_store() -> SupabaseVectorStore:
     if not POSTGRES_URL:
         raise ValueError("SUPABASE_DB_URL not found in environment variables.")
         
-    api_key = os.getenv("CAMPUSAI_API_KEY")
-    api_url = os.getenv("CAMPUSAI_API_URL")
-    embed_model_name = os.getenv("CAMPUSAI_EMBED_MODEL", "text-embedding-3-small")
+    api_key = os.getenv("CAMPUSAI_API_KEY") or "placeholder_key"
+    api_url = os.getenv("CAMPUSAI_API_URL") or "https://api.placeholder.com/v1"
+    embed_model_name = os.getenv("CAMPUSAI_EMBED_MODEL") or "text-embedding-3-small"
     
     embeddings = OpenAIEmbeddings(
         api_key=api_key,

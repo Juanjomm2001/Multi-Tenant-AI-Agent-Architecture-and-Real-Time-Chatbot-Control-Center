@@ -13,6 +13,18 @@ interface Message {
     displayedContent?: string;
 }
 
+// Helper to render bold markdown formatting (**text**) dynamically in React
+function renderFormattedText(text: string) {
+    if (!text) return "";
+    const parts = text.split(/\*\*([^*]+)\*\*/g);
+    return parts.map((part, index) => {
+        if (index % 2 === 1) {
+            return <strong key={index} className="font-bold">{part}</strong>;
+        }
+        return part;
+    });
+}
+
 // ─── Componente principal ─────────────────────────────────────────────────────
 export default function ChatDemoPage() {
     const { resolvedTheme, setTheme } = useTheme();
@@ -42,9 +54,9 @@ export default function ChatDemoPage() {
     const [msgCount, setMsgCount] = useState(0);
 
     const suggestedPrompts = [
-        { icon: "📍", text: "¿De dónde es Cosechados?" },
-        { icon: "🚚", text: "¿Cuánto cuesta el envío y cuánto tarda?" },
-        { icon: "🍯", text: "¿De dónde viene vuestra miel?" },
+        { icon: "👋", text: "¿Quiénes sois y qué es Cosechados?" },
+        { icon: "🛒", text: "¿Qué productos tenéis en el catálogo?" },
+        { icon: "🍊", text: "Quiero hacer un pedido de patatas y naranjas" },
     ];
 
     useEffect(() => {
@@ -104,7 +116,7 @@ export default function ChatDemoPage() {
             const apiUrl = process.env.NEXT_PUBLIC_PYTHON_API_URL || "http://127.0.0.1:8000";
             const bodyData: any = { tenant_id: defaultTenantId, session_id: sessionId, query: userMessage, history: messages.slice(-5) };
             if (customerId) bodyData.customer_id = customerId;
-            const response = await fetch(`${apiUrl}/api/v1/chat`, {
+            const response = await fetch(`${apiUrl}/api/v1/demo/chat`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(bodyData)
@@ -203,9 +215,9 @@ export default function ChatDemoPage() {
                         )}
                     </div>
                     <h1 className={`text-2xl font-bold text-center mb-1 ${isDark ? "text-white" : "text-[#2d251e]"}`}>Prueba Interactiva</h1>
-                    <p className={`text-center font-semibold text-sm mb-6 ${isDark ? theme.accent : "text-[#3a7d4a]"}`}>🛒 Frutería Online — Cosechados</p>
+                    <p className={`text-center font-semibold text-sm mb-6 ${isDark ? theme.accent : "text-[#3a7d4a]"}`}> Frutería Online — Cosechados</p>
                     <div className={`text-sm text-center mb-8 space-y-2 ${isDark ? "text-white/70" : "text-[#61554a]"}`}>
-                        <p>Chatbot de demostración para que veas cómo la IA puede atender a tus clientes, gestionar consultas y automatizar ventas las 24 h.</p>
+                        <p>Chatbot de demostración para que veas cómo la IA puede atender a tus clientes, gestionar consultas, tomar pedidos y automatizar ventas las 24 h.</p>
                         <p className={`text-xs ${isDark ? "text-white/40" : "text-[#9c8e82]"}`}>Introduce los datos de tu empresa para comenzar.</p>
                     </div>
 
@@ -301,7 +313,7 @@ export default function ChatDemoPage() {
 
                     <div className="px-4 space-y-5 flex-1">
                         <section>
-                            <h3 className={`text-[10px] font-bold ${theme.accent} uppercase tracking-widest mb-2`}>🛒 Tu Frutería Online</h3>
+                            <h3 className={`text-[10px] font-bold ${theme.accent} uppercase tracking-widest mb-2`}> Tu Frutería Online</h3>
                             <p className={`text-xs ${theme.textMuted} leading-relaxed`}>
                                 Del campo a tu casa, sin rodeos. En <span className={`${theme.text} font-medium`}>Cosechados</span> te llevamos la mejor fruta y verdura directamente desde el agricultor. ¡Más fresco, campechano y natural imposible!
                             </p>
@@ -344,7 +356,7 @@ export default function ChatDemoPage() {
                                 <Sparkles className={`w-3.5 h-3.5 ${theme.accent}`} /> ¿Cómo probarlo?
                             </h3>
                             <p className={`text-[11px] ${theme.textMuted} leading-relaxed relative z-10`}>
-                                Usa los botones de sugerencia o escribe cualquier pregunta sobre productos, pedidos o envíos. La IA responde en tiempo real.
+                                Usa los sugeridos, haz una pregunta o directamente pídele fruta para hacer tu pedido. ¡La IA toma pedidos en tiempo real!
                             </p>
                         </section>
                     </div>
@@ -403,11 +415,11 @@ export default function ChatDemoPage() {
                             </div>
                             {/* Burbuja */}
                             <div className="flex flex-col gap-1 max-w-[78%]">
-                                <div className={`rounded-2xl px-4 py-3 text-sm leading-relaxed ${msg.role === "user"
+                                <div className={`rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap ${msg.role === "user"
                                     ? `${theme.userBubble} rounded-br-sm`
                                     : `${theme.botBubble} rounded-bl-sm`
                                     }`}>
-                                    {msg.displayedContent ?? msg.content}
+                                    {renderFormattedText(msg.displayedContent ?? msg.content)}
                                     {msg.isTyping && (
                                         <span className={`inline-block w-0.5 h-4 ${isDark ? "bg-purple-400" : "bg-[#3a7d4a]"} ml-0.5 animate-pulse align-middle`} />
                                     )}
