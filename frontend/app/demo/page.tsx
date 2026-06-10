@@ -260,7 +260,7 @@ export default function ChatDemoPage() {
     // CHAT
     // ════════════════════════════════════════════════════════════════════════
     return (
-        <div style={{ height: "100dvh" }} className={`flex ${theme.chatBg} ${theme.text} overflow-hidden relative transition-colors duration-300`}>
+        <div style={{ height: "100dvh" }} className={`flex ${theme.chatBg} ${theme.text} overflow-hidden relative transition-colors duration-300 overscroll-none`}>
 
             {/* Toast */}
             {toast && (
@@ -268,14 +268,6 @@ export default function ChatDemoPage() {
                     <span>{toast}</span>
                 </div>
             )}
-
-            {/* Botón flotante para abrir sidebar en móvil */}
-            <button
-                onClick={() => setSidebarOpen(v => !v)}
-                className={`md:hidden fixed bottom-24 right-4 z-40 w-10 h-10 rounded-full ${isDark ? "bg-purple-600/90 border-purple-400/30 shadow-purple-900/50" : "bg-emerald-600/90 border-emerald-400/30 shadow-emerald-900/30"} backdrop-blur-md border flex items-center justify-center shadow-xl hover:opacity-80 transition-all`}
-            >
-                {sidebarOpen ? <X className="w-4 h-4 text-white" /> : <MoreHorizontal className="w-4 h-4 text-white" />}
-            </button>
 
             {sidebarOpen && (
                 <div className="md:hidden fixed inset-0 bg-black/60 z-30 backdrop-blur-sm" onClick={() => setSidebarOpen(false)} />
@@ -370,9 +362,15 @@ export default function ChatDemoPage() {
             {/* ── CHAT AREA ── */}
             <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
                 {/* Header */}
-                <header className={`shrink-0 px-5 py-3.5 border-b ${theme.border} ${theme.headerBg} backdrop-blur-md flex items-center justify-between z-10 transition-colors duration-300`}>
-                    <div className="flex items-center gap-3">
-                        <img src="/cosechados-logo.webp" alt="Logo" className="h-7 w-auto object-contain md:hidden" />
+                <header className={`shrink-0 px-4 md:px-5 py-3.5 border-b ${theme.border} ${theme.headerBg} backdrop-blur-md flex items-center justify-between z-10 transition-colors duration-300`}>
+                    <div className="flex items-center gap-2 md:gap-3">
+                        <button 
+                            onClick={() => setSidebarOpen(true)}
+                            className={`md:hidden p-1.5 -ml-1 rounded-md ${theme.textMuted} hover:${theme.text} transition-colors`}
+                        >
+                            <MoreHorizontal className="w-6 h-6" />
+                        </button>
+                        <img src="/cosechados-logo.webp" alt="Logo" className="h-7 w-auto object-contain hidden sm:block md:hidden" />
                         <div>
                             <h1 className={`font-semibold text-sm leading-tight ${theme.text}`}>Asistente de {companyName}</h1>
                             <div className="flex items-center gap-1.5 mt-0.5">
@@ -468,7 +466,7 @@ export default function ChatDemoPage() {
                             onChange={e => setInput(e.target.value)}
                             onKeyDown={e => e.key === "Enter" && !e.shiftKey && handleSend()}
                             placeholder="Escribe tu consulta aquí..."
-                            className={`flex-1 border rounded-full pl-5 pr-14 py-3.5 text-sm focus:outline-none focus:ring-1 transition-all ${theme.inputBg}`}
+                            className={`flex-1 border rounded-full pl-5 pr-14 py-3.5 text-base md:text-sm focus:outline-none focus:ring-1 transition-all ${theme.inputBg}`}
                             disabled={loading}
                         />
                         <button onClick={() => handleSend()} disabled={loading || !input.trim()}
